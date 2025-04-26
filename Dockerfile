@@ -1,8 +1,10 @@
-FROM caddy:builder AS builder
+# syntax=docker/dockerfile:1
+FROM caddy:2.10.0-builder AS builder
 
-RUN caddy-builder \
-    github.com/caddy-dns/cloudflare
+RUN xcaddy build \
+    --with github.com/caddy-dns/cloudflare \
+    --with github.com/WeidiDeng/caddy-cloudflare-ip 
 
-FROM caddy:latest
+FROM caddy:2.10.0
 
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
